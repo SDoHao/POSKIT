@@ -207,14 +207,14 @@ int fix_by_height(POSCAR * poscar,double min, double max)
 			flag++;
 			for (j = 0; j < 3; j++)
 			{
-				poscar->isFixed[i][j] = 0;
+				poscar->isFixed[i][j] = 1;
 			}
 		}
 		else
 		{
 			for (j = 0; j < 3; j++)
 			{
-				poscar->isFixed[i][j] = 1;
+				poscar->isFixed[i][j] = 0;
 			}
 		}
 	}
