@@ -8,7 +8,6 @@
 
 int main()
 {
-	int i;
 	main_loop();
 	return 0;
 }

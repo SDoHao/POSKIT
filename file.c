@@ -3,14 +3,34 @@
 #include <string.h>
 #include"poscar.h"
 const char SD[18] = "Selected dymanics";
+const char TableofElements[118][3];
 
-void load_PTE_file(char array[][3])
+void load_PTE_file()
 {
 	FILE *table = NULL;
 	int i;
 	table = fopen("./PeriodicTableofElements", "r");
-	for (i = 0; i < 118; i++)
-		fscanf(table, "%s", &array[i]);
+	if(table == NULL)
+		printf("\n    MISSING Periodic Table of Elements\n\n");
+	else
+	{
+		for (i = 0; i < 118; i++)
+			fscanf(table, "%s", TableofElements[i]);
+		fclose(table);
+	}
+		
+}
+void print_PTE()
+{
+	int i;
+	printf("\nThis is a Periodic Table of Elements:\n  ");
+	for (i = 0; i < 118; )
+	{
+		printf("%3d %3s  ", i + 1, TableofElements[i]);
+		if ((++i) % 5 == 0)
+			printf("\n  ");
+	}
+	printf("\n\n");
 }
 
 POSCAR load_file()
@@ -27,7 +47,7 @@ POSCAR load_file()
 	if (pos == NULL)
 	{
 		poscar.suc = 0;
-		printf("-------File read failed------\n");
+		printf("\n    File read failed\n");
 	}
 	else
 	{
@@ -102,7 +122,7 @@ POSCAR load_file()
 			}
 		}
 		fclose(pos);
-		printf("-----File read succeeded-----\n");
+		printf("\n    File read succeeded.\n\n");
 	}
 	return poscar;
 }
@@ -112,7 +132,7 @@ void print_file(POSCAR poscar)
 	//输出
 	if (poscar.suc == 0)
 	{
-		printf("Nothing output.\n"); 
+		printf("\n    Nothing output.\n\n"); 
 		return;
 	}	
 	int i,j,t,ct,index;
@@ -221,10 +241,84 @@ int fix_by_height(POSCAR * poscar,double min, double max)
 	return flag;
 }
 
-int fix_by_elem(POSCAR * poscar,int n,char elem[][3])
+int fix_by_elem(POSCAR * poscar,int n,char elem[][100])
 {
-	
-	return 0;
+	int i, j, t, flag = 0, is_re, index = 0, ct = 0, max;
+	int total = poscar->total_num;
+	if(n > 1)
+	{
+		printf("\n    You are about to fix the follnowing atoms.\n    ");
+		//预处理元素
+		for (i = 1; i < n; i++)
+		{
+			elem[i][2] = '\0';
+			if (elem[i][1] >= 'A' && elem[i][1] <= 'Z')
+				elem[i][1] += 32;
+		}
+		//去除重复元素
+		if (n > 2)
+		{
+			for (i = 1; i < n; i++)
+			{
+				for (is_re = 0, j = i + 1; j < n; j++)
+				{
+					if (elem[j][0] == '\0')break;
+					for (t = 0; t < 3; t++)
+					{
+						if (elem[i][t] != '\0')
+						{
+							if (elem[i][t] == elem[j][t])
+								is_re = 1;
+							else
+								is_re = 0;
+						}
+						else
+						{
+							if (elem[j][t] == '\0')
+								break;
+							else
+								is_re = 0;
+						}
+					}
+					if (is_re)
+						elem[j][0] = '\0';
+				}
+			}
+		}
+		for (i = 1; i < n; i++)
+		{
+			if(elem[i][0] != '\0')
+				printf("%s ", elem[i]);
+		}
+		printf("\n");
+		for (i = 0; i < total; i++)
+			for (j = 0; j < 3; j++)
+			{
+					poscar->isFixed[i][j] = 0;
+			}
+		max = poscar->atom_num[index];
+		for (i = 0; i < total; i++)
+		{
+			if (ct++ == max)
+			{
+				ct = 1;
+				max = poscar->atom_num[++index];
+			}
+			for (j = 1; j < n; j++)
+			{
+				is_re = strcmp(poscar->element[index], elem[j]);
+				//printf("%d %d %s %s %d\n",i + 1, index,poscar->element[index], elem[j], is_re);
+				if (is_re == 0)
+				{
+					flag++;
+					for (t = 0; t < 3; t++)
+						poscar->isFixed[i][t] = 1;
+					break;
+				}
+			}
+		}
+	}
+	return flag;
 }
 
 int fix_by_lines(POSCAR * poscar, int st,int ed)
@@ -283,7 +377,6 @@ int fix_by_lines(POSCAR * poscar, int st,int ed)
 			{
 				poscar->isFixed[i][j] = 0;
 			}
-
 		}
 		for (i = total + st; i < total; i++)
 		{
@@ -299,31 +392,31 @@ int fix_by_lines(POSCAR * poscar, int st,int ed)
 
 void FixInfoOutput(int n)
 {
-	printf("-----------------------------\n");
+	//printf("-----------------------------\n");
 	printf("                             \n");
 	if (n > 0)
 	{
 		if (n == 1)
-			printf("A total of one atom is fixed");
+			printf("    A total of one atom is fixed");
 		else
-			printf("A total of %d atoms are fixed\n", n);
+			printf("    A total of %d atoms are fixed\n", n);
 	}
 	else
 	{
-		printf("No atoms are fixed\n");
+		printf("    No atoms are fixed\n");
 	}
 	printf("                             \n");
-	printf("-----------------------------\n");
+	//printf("-----------------------------\n");
 }
 
 void save_file(POSCAR poscar,int f)
 {
 	if (poscar.suc == 0)
 	{
-		printf("Nothing output.\n");
+		printf("\n    Nothing output.\n\n");
 		return;
 	}
-	printf("-----------------------------\n");
+	//printf("-----------------------------\n");
 	int i, j, t, ct, index;
 	FILE *fp = NULL;
 	if(f)
@@ -380,6 +473,6 @@ void save_file(POSCAR poscar,int f)
 		fprintf(fp, "\n");
 	}
 	fclose(fp);
-	printf("    Output file succeeded    \n");
-	printf("-----------------------------\n");
+	printf("\n    Output file succeeded.\n\n");
+	//printf("-----------------------------\n");
 }
