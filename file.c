@@ -390,6 +390,20 @@ int fix_by_lines(POSCAR * poscar, int st,int ed)
 	return flag;
 }
 
+void unfix_file(POSCAR * poscar)
+{
+	int i, j;
+	poscar->is_selective = 0;
+	for (i = 0; i < poscar->total_num; i++)
+	{
+		for (j = 0; j < 3; j++)
+		{
+			poscar->isFixed[i][j] = 0;
+		}
+	}
+	printf("\n    All atoms are unfixed.\n\n");
+}
+
 void FixInfoOutput(int n)
 {
 	//printf("-----------------------------\n");

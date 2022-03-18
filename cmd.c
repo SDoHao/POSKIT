@@ -33,6 +33,16 @@ void cmdProcess(char *cmd, int argc, char argv[][100])
 	{
 		print_PTE();
 	}
+	else if (strcmp(cmd, "unfix") == 0 || strcmp(cmd, "u") == 0)
+	{
+		if (poscar.suc == 0)
+		{
+			printf("\n    Error, operation on empty file!\n\n");
+			return;
+		}
+		else
+			unfix_file(p_poscar);
+	}
 	//else if (strcmp(cmd, "x^2+(y-pow(x^2,1.0/3))^2=1") == 0)
 		//;
 	else if (strcmp(cmd, "hahaha") == 0|| strcmp(cmd, "h") == 0)

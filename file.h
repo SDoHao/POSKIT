@@ -10,3 +10,4 @@ int fix_by_elem(POSCAR * poscar, int n, char elem[][100]);
 int fix_by_lines(POSCAR * poscar, int st,int ed);
 void FixInfoOutput(int n);
 void save_file(POSCAR poscar,int f);
+void unfix_file(POSCAR * poscar);
