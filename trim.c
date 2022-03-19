@@ -1,8 +1,7 @@
-//#pragma once
 #include<stdio.h>
 #include <string.h>
 #include <ctype.h>
-//È¥³ýÎ²²¿¿Õ¸ñ
+//åŽ»é™¤å°¾éƒ¨ç©ºæ ¼
 char *RTrim(char *str)
 {
 	if (str == NULL || *str == '\0')
@@ -19,7 +18,7 @@ char *RTrim(char *str)
 	return str;
 }
 
-//È¥³ýÊ×²¿¿Õ¸ñ
+//åŽ»é™¤é¦–éƒ¨ç©ºæ ¼
 char *LTrim(char *str)
 {
 	if (str == NULL || *str == '\0')
@@ -37,7 +36,7 @@ char *LTrim(char *str)
 	return str;
 }
 
-//È¥³ýÊ×Î²¿Õ¸ñ
+//åŽ»é™¤é¦–å°¾ç©ºæ ¼
 char *Trim(char *str)
 {
 	str = RTrim(str);

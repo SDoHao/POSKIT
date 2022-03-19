@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-//#pragma once
 #include<stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -12,7 +10,8 @@ POSCAR * p_poscar;
 void cmdProcess(char *cmd, int argc, char argv[][100])
 {
 	int i;
-	for (i = 0; i < strlen(cmd);i++)
+	int cmd_len = strlen(cmd);
+	for (i = 0; i < cmd_len; i++)
 		if(cmd[1] >= 'A' && cmd[1] <= 'Z')
 			cmd[1] += 32;
 	if (strcmp(cmd, "load") == 0 || strcmp(cmd, "l") == 0)
@@ -27,20 +26,20 @@ void cmdProcess(char *cmd, int argc, char argv[][100])
 		print_file(poscar);
 	}
 	else if (strcmp(cmd, "pwd") == 0)
-		print_PWD();//ÏÔÊ¾µ±Ç°¹¤×÷Â·¾¶
+		print_PWD();//æ˜¾ç¤ºå½“å‰å·¥ä½œè·¯å¾„
 	else if (strcmp(cmd, "save") == 0 || strcmp(cmd, "s") == 0)
 	{
 		if (argc > 0)
 		{
 			if (strcmp(argv[0], "-f") == 0)
-				i = 1;//¸²¸ÇÔ­ÎÄ¼ş
+				i = 1;//è¦†ç›–åŸæ–‡ä»¶
 			else if (strcmp(argv[0], "-n") == 0)
-				i = 3;//POSCAR_new×÷ÎªÎÄ¼şÃû
+				i = 3;//POSCAR_newä½œä¸ºæ–‡ä»¶å
 			else 
-				i = 2;//Ö¸¶¨ÎÄ¼şÃû
+				i = 2;//æŒ‡å®šæ–‡ä»¶å
 		}
 		else
-			i = 4;//POSCAR×÷ÎªÎÄ¼şÃû
+			i = 4;//POSCARä½œä¸ºæ–‡ä»¶å
 		save_file(poscar, i, argv[0]);
 	}
 	else if (strcmp(cmd, "pte") == 0)
@@ -117,7 +116,7 @@ void main_loop()
 		num = -1;
 		printf(">> ");
 		fgets(str, 100, stdin);
-		str[strlen(str) - 1] = ' ';//½«»»ĞĞ·û»»³É¿Õ¸ñ
+		str[strlen(str) - 1] = ' ';//å°†æ¢è¡Œç¬¦æ¢æˆç©ºæ ¼
 		//gets(str);
 		//scanf("%[^\n]%*c", str);
 		ch = LTrim(str);
@@ -139,7 +138,7 @@ void main_loop()
 		while (*ch != '\0')
 		{
 			
-			if (flag)//·Ç¿Õ¸ñ
+			if (flag)//éç©ºæ ¼
 			{
 				if (*ch == ' ')
 				{
@@ -161,7 +160,7 @@ void main_loop()
 					flag = 1;
 				}
 			}
-			if (flag == 1)//½áÎ²´¦Àí
+			if (flag == 1)//ç»“å°¾å¤„ç†
 			{
 				if (*(ch + 1) == '\0')
 				{
