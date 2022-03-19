@@ -116,7 +116,9 @@ void main_loop()
 		bi = flag = i = 0;
 		num = -1;
 		printf(">> ");
-		gets(str);
+		fgets(str, 100, stdin);
+		str[strlen(str) - 1] = ' ';//将换行符换成空格
+		//gets(str);
 		//scanf("%[^\n]%*c", str);
 		ch = LTrim(str);
 		len = strlen(ch);
