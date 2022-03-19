@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+//#pragma once
 #include<stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,18 +17,31 @@ void cmdProcess(char *cmd, int argc, char argv[][100])
 			cmd[1] += 32;
 	if (strcmp(cmd, "load") == 0 || strcmp(cmd, "l") == 0)
 	{
-		if (argc > 0)
-			printf("%s\n", argv[0]);
-		poscar = load_file();
+		//if (argc > 0)
+			//printf("%s\n", argv[0]);
+		poscar = load_file(argc, argv[0]);
 		p_poscar = &poscar;
 	}
 	else if (strcmp(cmd, "print") == 0 || strcmp(cmd, "p") == 0)
 	{
 		print_file(poscar);
 	}
+	else if (strcmp(cmd, "pwd") == 0)
+		print_PWD();//显示当前工作路径
 	else if (strcmp(cmd, "save") == 0 || strcmp(cmd, "s") == 0)
 	{
-		save_file(poscar, strcmp(argv[0], "-f"));
+		if (argc > 0)
+		{
+			if (strcmp(argv[0], "-f") == 0)
+				i = 1;//覆盖原文件
+			else if (strcmp(argv[0], "-n") == 0)
+				i = 3;//POSCAR_new作为文件名
+			else 
+				i = 2;//指定文件名
+		}
+		else
+			i = 4;//POSCAR作为文件名
+		save_file(poscar, i, argv[0]);
 	}
 	else if (strcmp(cmd, "pte") == 0)
 	{
@@ -157,13 +171,3 @@ void main_loop()
 		cmdProcess(cmd,num,margv);
 	}
 }
-
-//for (i = 0; i < num; i++)
-//{
-//	bi = 0;
-//	while (margv[i][bi] != '\0')
-//	{
-//		printf("%c", margv[i][bi++]);
-//	}
-//	printf("\n");
-//}

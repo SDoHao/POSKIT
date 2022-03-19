@@ -8,6 +8,8 @@
 
 int main()
 {
+	#pragma region main_loop
 	main_loop();
+	#pragma endregion main_loop
 	return 0;
 }

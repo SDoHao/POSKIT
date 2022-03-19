@@ -1,9 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
+//#pragma once
 #include<stdio.h>
 #include <string.h>
 #include"poscar.h"
 const char SD[18] = "Selected dymanics";
 const char TableofElements[118][3];
+char path1[9] = { "./POSCAR" };
+char path2[10] = { "./CONTCAR" };
+char workpath[100] = { "You haven't opened the file yet.\n" };
+char * file_path = workpath;
 
 void load_PTE_file()
 {
@@ -18,8 +23,8 @@ void load_PTE_file()
 			fscanf(table, "%s", TableofElements[i]);
 		fclose(table);
 	}
-		
 }
+
 void print_PTE()
 {
 	int i;
@@ -33,21 +38,51 @@ void print_PTE()
 	printf("\n\n");
 }
 
-POSCAR load_file()
+POSCAR load_file(int param,char path[100])
 {
 	POSCAR poscar;
 	int i, j, elem_num = 0;
 	char strings[100],command1[12], command2[12];
 	char *trim_string,is_F_or_T[2];
-	
+	int flag = 1;
 	FILE *pos = NULL;
-	pos = fopen("./POSCAR", "r");
-	if (pos == NULL)
-		pos = fopen("./CONTCAR", "r");
+	if (param)
+	{
+		strcpy(workpath, path);
+		file_path = workpath;
+		pos = fopen(path, "r");
+		if (pos == NULL)
+		{
+			flag = 0;
+			printf("\n    File read failed\n");
+		}
+		else
+			printf("\n    Load file from:%s\n", file_path);
+	}
 	if (pos == NULL)
 	{
+		file_path = path1;
+		pos = fopen(path1, "r");
+		if (pos == NULL)
+		{
+			file_path = path2;
+			pos = fopen(path2, "r");
+			if (pos == NULL)
+				;
+			else
+				printf("\n    Load file CONTCAR:%s\n", path2);
+		}
+		else
+			printf("\n    Load POSCAR from:%s\n", path1);
+	}
+	if (pos == NULL)
+	{
+		//file_path = path1;
 		poscar.suc = 0;
-		printf("\n    File read failed\n");
+		if (flag)
+			printf("\n    File read failed\n\n");
+		else
+			printf("\n");
 	}
 	else
 	{
@@ -423,7 +458,7 @@ void FixInfoOutput(int n)
 	//printf("-----------------------------\n");
 }
 
-void save_file(POSCAR poscar,int f)
+void save_file(POSCAR poscar,int f,char path[100])
 {
 	if (poscar.suc == 0)
 	{
@@ -433,10 +468,26 @@ void save_file(POSCAR poscar,int f)
 	//printf("-----------------------------\n");
 	int i, j, t, ct, index;
 	FILE *fp = NULL;
-	if(f)
+	if (f == 1)
+	{
+		printf("\n    save path:\n        %s\n", file_path);
+		fp = fopen(file_path, "w+");
+	}
+	else if (f == 2)
+	{
+		printf("\n    save path:\n        %s\n", path);
+		fp = fopen(path, "w+");
+	}
+	else if (f == 3)
+	{
+		printf("\n    Save to POSCAR_new file\n");
 		fp = fopen("POSCAR_new", "w+");
-	else
+	}
+	else if (f == 4)
+	{
+		printf("\n    Save to POSCAR file\n");
 		fp = fopen("POSCAR", "w+");
+	}
 	fprintf(fp, "%s\n%.12f\n", poscar.name, poscar.scale);
 	for (i = 0; i < 3; i++)
 	{
@@ -489,4 +540,8 @@ void save_file(POSCAR poscar,int f)
 	fclose(fp);
 	printf("\n    Output file succeeded.\n\n");
 	//printf("-----------------------------\n");
+}
+void print_PWD()
+{
+	printf("\n    %s\n\n", file_path);
 }
