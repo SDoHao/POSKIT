@@ -116,7 +116,8 @@ void main_loop()
 		bi = flag = i = 0;
 		num = -1;
 		printf(">> ");
-		scanf("%[^\n]%*c", str);
+		gets(str);
+		//scanf("%[^\n]%*c", str);
 		ch = LTrim(str);
 		len = strlen(ch);
 		while (*ch != ' ' && *ch != '\0' && *ch != '-')
