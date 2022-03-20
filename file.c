@@ -1,10 +1,8 @@
-#define _CRT_SECURE_NO_WARNINGS
-//#pragma once
 #include<stdio.h>
 #include <string.h>
 #include"poscar.h"
 const char SD[18] = "Selected dymanics";
-const char TableofElements[118][3];
+char TableofElements[118][3];
 char path1[9] = { "./POSCAR" };
 char path2[10] = { "./CONTCAR" };
 char workpath[100] = { "You haven't opened the file yet.\n" };
@@ -87,14 +85,14 @@ POSCAR load_file(int param,char path[100])
 	else
 	{
 		poscar.suc = 1;
-		fscanf(pos, "%s", &poscar.name);
+		fscanf(pos, "%s", poscar.name);
 		fscanf(pos, "%f", &poscar.scale);
 		for (i = 0; i < 3; i++)
 			for (j = 0; j < 3; j++)
 				fscanf(pos, "%lf", &poscar.lattice[i][j]);
-		//∂¡»°ªª––∑˚
+		//ËØªÂèñÊç¢Ë°åÁ¨¶
 		fgets(strings, 5, pos);
-		//∂¡»°‘™Àÿ
+		//ËØªÂèñÂÖÉÁ¥†
 		fgets(strings, 100, pos);
 		trim_string = &strings[0];
 		//trim_string = Trim(strings);
@@ -114,14 +112,14 @@ POSCAR load_file(int param,char path[100])
 			trim_string++;
 		}
 		poscar.elem_num = elem_num;
-		//∂¡»°‘™Àÿ ˝¡ø
+		//ËØªÂèñÂÖÉÁ¥†Êï∞Èáè
 		poscar.total_num = i = 0;
 		while (i < elem_num)
 		{
 			fscanf(pos, "%d", &poscar.atom_num[i]);
 			poscar.total_num += poscar.atom_num[i++];
 		}
-		// «∑ÒπÃ∂®“‘º∞◊¯±Í¿‡–Õ
+		//ÊòØÂê¶Âõ∫ÂÆö‰ª•ÂèäÂùêÊ†áÁ±ªÂûã
 		fscanf(pos, "%s", command1);
 		if (command1[0] == 'S')
 		{
@@ -134,7 +132,7 @@ POSCAR load_file(int param,char path[100])
 			poscar.is_selective = 0;
 			strcpy(poscar.pos_type, command1);
 		}
-		//∂¡»°◊¯±Í
+		//ËØªÂèñÂùêÊ†á
 		for (i = 0; i < poscar.total_num; i++)
 		{
 			for (j = 0; j < 3; j++)
@@ -145,7 +143,7 @@ POSCAR load_file(int param,char path[100])
 			{
 				for (j = 0; j < 3; j++)
 				{
-					fscanf(pos, "%s", &is_F_or_T);
+					fscanf(pos, "%s", is_F_or_T);
 					if (is_F_or_T[0] == 'F')
 					{
 
@@ -164,7 +162,7 @@ POSCAR load_file(int param,char path[100])
 
 void print_file(POSCAR poscar)
 {
-	// ‰≥ˆ
+	//ËæìÂá∫
 	if (poscar.suc == 0)
 	{
 		printf("\n    Nothing output.\n\n"); 
@@ -182,23 +180,23 @@ void print_file(POSCAR poscar)
 				printf("\n");
 		}
 	}
-	// ‰≥ˆ‘™Àÿ÷÷¿‡
+	//ËæìÂá∫ÂÖÉÁ¥†ÁßçÁ±ª
 	for (i = 0; i < poscar.elem_num; i++)
 	{
 		printf("%3s ", poscar.element[i]);
 	}
 	printf("\n");
-	// ‰≥ˆ‘™Àÿ ˝¡ø
+	//ËæìÂá∫ÂÖÉÁ¥†Êï∞Èáè
 	for (i = 0; i < poscar.elem_num; i++)
 		printf("%3d ", poscar.atom_num[i]);
 	printf("\n#there are %d atoms\n", poscar.total_num);
 	//printf("\n");
-	// «∑ÒπÃ∂®
+	//ÊòØÂê¶Âõ∫ÂÆö
 	if (poscar.is_selective)
 	{
 		printf("%s\n", SD);
 	}
-	//◊¯±Í¿‡–Õ
+	//ÂùêÊ†áÁ±ªÂûã
 	printf("%s\n", poscar.pos_type);
 	index = ct = 0;
 	t = poscar.atom_num[0];
@@ -240,10 +238,10 @@ int fix_file(POSCAR * poscar)
 		poscar->is_selective = 1;
 		for (i = 0; i < poscar->total_num; i++)
 			flag++;
-			for (j = 0; j < 3; j++)
-			{
-				poscar->isFixed[i][j] = 1;
-			}
+		for (j = 0; j < 3; j++)
+		{
+			poscar->isFixed[i][j] = 1;
+		}
 	}
 	return flag;
 }
@@ -283,14 +281,14 @@ int fix_by_elem(POSCAR * poscar,int n,char elem[][100])
 	if(n > 1)
 	{
 		printf("\n    You are about to fix the follnowing atoms.\n    ");
-		//‘§¥¶¿Ì‘™Àÿ
+		//È¢ÑÂ§ÑÁêÜÂÖÉÁ¥†
 		for (i = 1; i < n; i++)
 		{
 			elem[i][2] = '\0';
 			if (elem[i][1] >= 'A' && elem[i][1] <= 'Z')
 				elem[i][1] += 32;
 		}
-		//»•≥˝÷ÿ∏¥‘™Àÿ
+		//ÂéªÈô§ÈáçÂ§çÂÖÉÁ¥†
 		if (n > 2)
 		{
 			for (i = 1; i < n; i++)
@@ -366,8 +364,7 @@ int fix_by_lines(POSCAR * poscar, int st,int ed)
 	{
 		if (ed > total)
 			ed = total;
-		else
-			;
+
 		if (st == ed)
 		{
 			if (st == 0)return 0;

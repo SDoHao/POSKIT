@@ -1,3 +1,6 @@
+#ifndef POSCAR_H
+#define POSCAR_H
+
 struct POSCAR
 {
 	char name[255];
@@ -32,3 +35,5 @@ printf("%d %s  ", i + 1, TableofElements[i]);
 if ((++i) % 5 == 0)
 printf("\n");
 }*/
+
+#endif

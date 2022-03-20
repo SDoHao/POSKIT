@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FILE_H
+#define FILE_H
+
 #include<stdio.h>
 void load_PTE_file();
 void print_PTE();
@@ -12,3 +14,5 @@ void FixInfoOutput(int n);
 void save_file(POSCAR poscar, int f, char path[100]);
 void unfix_file(POSCAR * poscar);
 void print_PWD();
+
+#endif
