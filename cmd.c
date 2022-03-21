@@ -12,8 +12,8 @@ void cmdProcess(char *cmd, int argc, char argv[][100])
 	int i;
 	int cmd_len = strlen(cmd);
 	for (i = 0; i < cmd_len; i++)
-		if(cmd[1] >= 'A' && cmd[1] <= 'Z')
-			cmd[1] += 32;
+		if(cmd[i] >= 'A' && cmd[i] <= 'Z')
+			cmd[i] += 32;
 	if (strcmp(cmd, "load") == 0 || strcmp(cmd, "l") == 0)
 	{
 		//if (argc > 0)

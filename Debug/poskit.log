@@ -1,0 +1,17 @@
+﻿生成启动时间为 2022/3/21 9:03:55。
+     1>项目“E:\C_Code\CReadText\poskit\poskit\poskit.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\VisualStudio\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TC /analyze- /errorReport:prompt file.c
+         file.c
+     1>e:\c_code\creadtext\poskit\poskit\file.c : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+       Link:
+         D:\VisualStudio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\C_Code\CReadText\poskit\Debug\poskit.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"E:\C_Code\CReadText\poskit\Debug\poskit.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\C_Code\CReadText\poskit\Debug\poskit.lib" /MACHINE:X86 Debug\cmd.obj
+         Debug\main.obj
+         Debug\file.obj
+         Debug\trim.obj
+         poskit.vcxproj -> E:\C_Code\CReadText\poskit\Debug\poskit.exe
+     1>已完成生成项目“E:\C_Code\CReadText\poskit\poskit\poskit.vcxproj”(Build 个目标)的操作。
+
+已成功生成。
+
+已用时间 00:00:00.50
